@@ -1,0 +1,24 @@
+---
+- name: Install php5-fpm and deps 
+  apt: name={{ item }} state=latest update_cache=true
+  with_items:
+    - php5
+    - php5-fpm
+    - php5-enchant
+    - php5-mcrypt
+    - php5-gd
+    - php5-mysql
+    - libphp-phpmailer
+    - libphp-simplepie
+    - php5-xmlrpc
+
+- name: Disable default pool
+  command: mv /etc/php5/fpm/pool.d/www.conf /etc/php5/fpm/pool.d/www.disabled creates=/etc/php5/fpm/pool.d/www.disabled
+
+- name: Set memory limit in php.ini
+  replace: dest=/etc/php5/fpm/php.ini regexp='^memory_limit.*$' replace='memory_limit=-1' backup=yes
+  notify: restart php5-fpm
+
+- name: Copy php-fpm configuration
+  template: src=site.conf.j2 dest="/etc/php5/fpm/pool.d/{{ web_folder }}.conf"
+  notify: restart php5-fpm
