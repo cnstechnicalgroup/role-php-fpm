@@ -19,6 +19,14 @@
   replace: dest=/etc/php5/fpm/php.ini regexp='^memory_limit.*$' replace='memory_limit=-1' backup=yes
   notify: restart php5-fpm
 
+- name: Set upload_max_filesize in php.ini
+  replace: dest=/etc/php5/fpm/php.ini regexp='^upload_max_filesize.*$' replace='upload_max_filesize=20' backup=yes
+  notify: restart php5-fpm
+
+- name: Set post_max_size in php.ini
+  replace: dest=/etc/php5/fpm/php.ini regexp='^post_max_size.*$' replace='post_max_size=20' backup=yes
+  notify: restart php5-fpm
+
 - name: Copy php-fpm configuration
   template: src=site.conf.j2 dest="/etc/php5/fpm/pool.d/{{ web_folder }}.conf"
   notify: restart php5-fpm
