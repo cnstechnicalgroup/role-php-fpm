@@ -12,6 +12,13 @@
     - libphp-simplepie
     - php5-xmlrpc
 
+- name: Add service group
+  group: name="{{ phpfpm_process_group }}"
+
+- name: Add service user
+  user: name="{{ phpfpm_process_user }}" group="{{ phpfpm_process_group }}" home="/home/{{ phpfpm_process_user }}"
+  notify: restart php5-fpm
+
 - name: Disable default pool
   command: mv /etc/php5/fpm/pool.d/www.conf /etc/php5/fpm/pool.d/www.disabled creates=/etc/php5/fpm/pool.d/www.disabled
 
