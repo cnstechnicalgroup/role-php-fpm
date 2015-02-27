@@ -27,7 +27,7 @@
   notify: restart php5-fpm
 
 - name: Set upload_max_filesize in php.ini
-  replace: dest=/etc/php5/fpm/php.ini regexp='^upload_max_filesize.*$' replace='upload_max_filesize=20' backup=yes
+  replace: dest=/etc/php5/fpm/php.ini regexp='^upload_max_filesize.*$' replace='upload_max_filesize=20M' backup=yes
   notify: restart php5-fpm
 
 - name: Set post_max_size in php.ini
