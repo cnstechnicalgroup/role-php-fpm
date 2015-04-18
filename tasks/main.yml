@@ -34,6 +34,10 @@
   replace: dest=/etc/php5/fpm/php.ini regexp='^post_max_size.*$' replace='post_max_size=20M' backup=yes
   notify: restart php5-fpm
 
+- name: Set max_execution_time in php.ini
+  replace: dest=/etc/php5/fpm/php.ini regexp='^max_execution_time.*$' replace='max_execution_time=300' backup=yes
+  notify: restart php5-fpm
+
 - name: Copy php-fpm configuration
   template: src=site.conf.j2 dest="/etc/php5/fpm/pool.d/{{ web_folder }}.conf"
   notify: restart php5-fpm
